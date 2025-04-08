@@ -1,10 +1,13 @@
-import { NavLink } from "react-router";
+import requestSignIn from "src/fetch/requestSignin";
 
 const Login = () => {
-  const handleSubmit = (e) => {
-    // e.preventDefault();
-    // // Add login logic here
-    // alert("Login successful! Redirecting to dashboard...");
+  const handleSubmit = async (formdata: FormData) => {
+    const data = {
+      email: formdata.get("email") as string | null,
+      password: formdata.get("password") as string | null,
+    };
+
+    requestSignIn(data);
   };
 
   return (
@@ -14,15 +17,16 @@ const Login = () => {
           Welcome Back
         </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form action={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-gray-700 mb-2 font-medium">
               Email
             </label>
             <input
-              type="email"
+              type="text"
+              name="email"
               required
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full text-black px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             />
           </div>
 
@@ -31,9 +35,10 @@ const Login = () => {
               Password
             </label>
             <input
-              type="password"
+              type="text"
+              name="password"
               required
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full text-black px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             />
           </div>
 
