@@ -48,7 +48,7 @@ app.post("/api/signin", (req, res) => {
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
-  res.json({ accessToken });
+  res.json({ accessToken, refreshToken });
 });
 
 app.post("/api/refresh-token", (req, res) => {
