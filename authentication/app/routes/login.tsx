@@ -1,13 +1,17 @@
 import requestSignIn from "src/fetch/requestSignin";
+import { useNavigate } from "react-router";
 
 const Login = () => {
+  const navigate = useNavigate();
   const handleSubmit = async (formdata: FormData) => {
     const data = {
       email: formdata.get("email") as string | null,
       password: formdata.get("password") as string | null,
     };
 
-    requestSignIn(data);
+    const isSucceed = await requestSignIn(data);
+
+    if (isSucceed) navigate("/dashboard");
   };
 
   return (
