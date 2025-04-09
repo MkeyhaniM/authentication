@@ -30,8 +30,8 @@ const requestSignIn = async (data: TSignInValidation) => {
         }
       );
     }
-
     const result = await signinRequest.json();
+    return result;
   } catch (e) {
     if (e instanceof Error) {
       toast.error(e.message, {

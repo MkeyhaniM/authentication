@@ -1,9 +1,10 @@
-import { NavLink } from "react-router";
+import requestOrder from "src/fetch/requestOders";
 
 const Dashboard = () => {
+  requestOrder();
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Navigation Bar */}
       <nav className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
@@ -19,19 +20,15 @@ const Dashboard = () => {
         </div>
       </nav>
 
-      {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Stats Cards */}
           <div className="bg-white p-6 rounded-xl shadow-sm">
             <h3 className="text-gray-500 text-sm font-medium">Total Users</h3>
             <p className="text-3xl font-bold text-gray-900 mt-2">1,234</p>
           </div>
 
           <div className="bg-white p-6 rounded-xl shadow-sm">
-            <h3 className="text-gray-500 text-sm font-medium">
-              Active Sessions
-            </h3>
+            <h3 className="text-gray-500 text-sm font-medium"></h3>
             <p className="text-3xl font-bold text-gray-900 mt-2">42</p>
           </div>
 
@@ -41,7 +38,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Recent Activity */}
         <div className="mt-8 bg-white rounded-xl shadow-sm p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">
             Recent Activity
@@ -56,7 +52,6 @@ const Dashboard = () => {
                 Completed
               </span>
             </div>
-            {/* Add more activity items */}
           </div>
         </div>
       </div>
