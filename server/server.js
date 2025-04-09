@@ -41,14 +41,28 @@ app.post("/api/signin", (req, res) => {
     expiresIn: "7d",
   });
 
+  // res.cookie("accessToken", accessToken, {
+  //   httpOnly: true,
+  //   secure: process.env.NODE_ENV === "production",
+  //   sameSite: "strict",
+  //   maxAge: 1000,
+  // });
+
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     maxAge: 7 * 24 * 60 * 60 * 1000,
+    path: "/api/refresh-token",
   });
 
-  res.json({ accessToken, refreshToken });
+  const decodedAccessToken = jwt.decode(accessToken);
+  const epxAccessToken = decodedAccessToken.exp;
+
+  res.json({
+    accessToken,
+    epxAccessToken,
+  });
 });
 
 app.post("/api/refresh-token", (req, res) => {
