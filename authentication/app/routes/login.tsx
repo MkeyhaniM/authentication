@@ -1,17 +1,26 @@
 import requestSignIn from "src/fetch/requestSignin";
 import { useNavigate } from "react-router";
+import useAuthStore from "src/store/user";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setRefreshToken, setExpireTime, setAccessToken } = useAuthStore();
+
   const handleSubmit = async (formdata: FormData) => {
     const data = {
       email: formdata.get("email") as string | null,
       password: formdata.get("password") as string | null,
     };
 
-    const isSucceed = await requestSignIn(data);
+    const infoSigninResponse = await requestSignIn(data);
+    console.log(infoSigninResponse);
 
-    if (isSucceed) navigate("/dashboard");
+    if (infoSigninResponse) {
+      setAccessToken(infoSigninResponse.accessToken);
+      setRefreshToken(infoSigninResponse.refreshToken);
+      setExpireTime(infoSigninResponse.epxAccessToken);
+      navigate("/dashboard");
+    }
   };
 
   return (
