@@ -53,7 +53,7 @@ app.post("/api/signin", (req, res) => {
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     maxAge: 7 * 24 * 60 * 60 * 1000,
-    path: "/api/refresh-token",
+    // path: "/api/refresh-token",
   });
 
   const decodedAccessToken = jwt.decode(accessToken);
@@ -61,6 +61,7 @@ app.post("/api/signin", (req, res) => {
 
   res.json({
     accessToken,
+    refreshToken,
     epxAccessToken,
   });
 });
