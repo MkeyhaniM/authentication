@@ -1,29 +1,32 @@
 import { toast } from "react-toastify";
+import useAuthStore from "src/store/user";
 
 const requestOrder = async () => {
-  const order = await fetch("http://localhost:3000/api/protected", {
-    headers: {
-      authorization: "authorization",
-    },
-  });
+  const { accessToken } = useAuthStore();
 
-  if (order.ok) {
-    toast.error(
-      `code status: ${order.status} Oops, there is a problem with your validation `,
-      {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+  try {
+    const order = await fetch("http://localhost:3000/api/protected", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    if (!order.ok) {
+      if (order.status === 401) {
+        toast.error("Unauthorized! Please log in again.");
+      } else if (order.status === 403) {
+        toast.error("Forbidden! Invalid or expired token.");
+      } else {
+        toast.error(`Error: ${order.statusText}`);
       }
-    );
+      return null;
+    }
+    return await order.json();
+  } catch {
+    console.error("Error fetching protected data");
+    toast.error("An error occurred while fetching protected data.");
+    return null;
   }
-
-  return await order.json();
 };
 
 export default requestOrder;
