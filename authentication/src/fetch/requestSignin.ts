@@ -5,7 +5,6 @@ import type { TSignInValidation } from "src/types/TSignInValidation";
 const requestSignIn = async (data: TSignInValidation) => {
   try {
     const checkValidationInputs = SignInSchema(data as TSignInSchema);
-    console.log(checkValidationInputs);
     const signinRequest = await fetch("http://localhost:3000/api/signin", {
       body: JSON.stringify(checkValidationInputs),
       method: "POST",
