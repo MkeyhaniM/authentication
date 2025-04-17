@@ -1,7 +1,10 @@
 import requestOrder from "src/fetch/requestOders";
+import wrapperCheckExpireTime from "src/utils/wrapperCheckExpireTime";
 
-const Dashboard = () => {
-  requestOrder();
+const Dashboard = async () => {
+  const userData = wrapperCheckExpireTime(requestOrder());
+
+  console.log(await userData);
 
   return (
     <div className="min-h-screen bg-gray-50">
