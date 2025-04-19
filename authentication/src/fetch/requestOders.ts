@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import useAuthStore from "src/store/user";
 
-const requestOrder = async () => {
+const requestOrder = async (): Promise<{ massage: string } | null> => {
   const { accessToken } = useAuthStore();
 
   try {

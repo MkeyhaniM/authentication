@@ -1,7 +1,7 @@
 import requestNewAccessToken from "src/fetch/requestRefreshToken";
 import isExpiredAccessToken from "./isExpiredAccessToken";
 
-const wrapperCheckExpireTime = async (request: Promise<unknown>) => {
+const wrapperCheckExpireTime = async (request: Function) => {
   const isExpired = isExpiredAccessToken();
 
   if (isExpired) {

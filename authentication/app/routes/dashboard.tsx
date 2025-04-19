@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import requestOrder from "src/fetch/requestOders";
 import wrapperCheckExpireTime from "src/utils/wrapperCheckExpireTime";
 
-const Dashboard = async () => {
+const Dashboard = () => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     async () => {
       try {
-        const userData = requestOrder();
+        const userData = wrapperCheckExpireTime(requestOrder);
         console.log(await userData);
       } catch (error) {
         console.error("Error fetching user data:", error);
