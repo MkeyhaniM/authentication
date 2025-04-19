@@ -1,10 +1,21 @@
+"use client";
+import { useEffect, useState } from "react";
 import requestOrder from "src/fetch/requestOders";
 import wrapperCheckExpireTime from "src/utils/wrapperCheckExpireTime";
 
 const Dashboard = async () => {
-  const userData = wrapperCheckExpireTime(requestOrder());
+  const [userData, setUserData] = useState(null);
 
-  console.log(await userData);
+  useEffect(() => {
+    async () => {
+      try {
+        const userData = requestOrder();
+        console.log(await userData);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">
