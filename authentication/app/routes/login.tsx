@@ -4,7 +4,12 @@ import useAuthStore from "src/store/user";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setRefreshToken, setExpireTime, setAccessToken } = useAuthStore();
+  const {
+    setRefreshToken,
+    setExpireTime,
+    setAccessToken,
+    setRefreshAndAccessAndExpireTime,
+  } = useAuthStore();
 
   const handleSubmit = async (formdata: FormData) => {
     const data = {
@@ -13,12 +18,13 @@ const Login = () => {
     };
 
     const infoSigninResponse = await requestSignIn(data);
-    console.log(infoSigninResponse);
 
     if (infoSigninResponse) {
-      setAccessToken(infoSigninResponse.accessToken);
-      setRefreshToken(infoSigninResponse.refreshToken);
-      setExpireTime(infoSigninResponse.epxAccessToken);
+      setRefreshAndAccessAndExpireTime(
+        infoSigninResponse.refreshToken,
+        infoSigninResponse.accessToken,
+        infoSigninResponse.epxAccessToken
+      );
       navigate("/dashboard");
     }
   };
