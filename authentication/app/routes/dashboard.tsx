@@ -1,21 +1,39 @@
 "use client";
+
+import { useNavigate } from "react-router";
+
 import { useEffect, useState } from "react";
 import requestOrder from "src/fetch/requestOders";
+import useAuthStore from "src/store/user";
 import wrapperCheckExpireTime from "src/utils/wrapperCheckExpireTime";
 
 const Dashboard = () => {
-  const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
+  const [userData, serUserData] = useState(null);
+
+  const { accessToken, loading } = useAuthStore.getState();
 
   useEffect(() => {
-    async () => {
+    const fetchData = async () => {
+      if (loading) return;
+
+      console.log("accessToken", accessToken);
+
+      if (!accessToken) {
+        navigate("/login");
+      }
+
       try {
-        const userData = wrapperCheckExpireTime(requestOrder);
-        console.log(await userData);
+        const protectedData = await wrapperCheckExpireTime(requestOrder);
+        console.log(protectedData);
+        serUserData(protectedData);
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Error fetching protected data:", error);
       }
     };
-  }, []);
+
+    fetchData();
+  }, [accessToken, loading, navigate]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -33,7 +51,7 @@ const Dashboard = () => {
           </div>
         </div>
       </nav>
-
+      {userData && console.log("userData", userData)};
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white p-6 rounded-xl shadow-sm">
