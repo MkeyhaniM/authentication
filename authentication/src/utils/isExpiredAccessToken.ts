@@ -1,8 +1,4 @@
-import useAuthStore from "src/store/user";
-
-const isExpiredAccessToken = (): boolean => {
-  const { expireTime } = useAuthStore();
-
+const isExpiredAccessToken = (expireTime: number): boolean => {
   if ((expireTime as number) > Date.now()) {
     return true;
   }
