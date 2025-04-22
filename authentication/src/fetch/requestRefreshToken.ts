@@ -1,8 +1,10 @@
 import useAuthStore from "src/store/user";
 
 const requestRefreshToken = async () => {
-  const { accessToken } = useAuthStore();
-  const refreshToken = fetch("http://localhost:3000/api/refresh-token", {
+  const { accessToken, setRefreshAndAccessAndExpireTime } =
+    useAuthStore.getState();
+
+  const requestRefreshToken = fetch("http://localhost:3000/api/refresh-token", {
     method: "POST",
     credentials: "include",
     headers: {
@@ -13,12 +15,17 @@ const requestRefreshToken = async () => {
     }),
   });
 
-  if ((await refreshToken).status === 401) {
+  if ((await requestRefreshToken).status === 401) {
     console.error("Unauthorized! Please log in again.");
     location.href = "/login";
   }
 
-  return (await refreshToken).json();
+  if ((await requestRefreshToken).ok) {
+    const { accessToken, refreshToken, expireTime } = await (
+      await requestRefreshToken
+    ).json();
+    setRefreshAndAccessAndExpireTime(refreshToken, accessToken, expireTime);
+  }
 };
 
 export default requestRefreshToken;
