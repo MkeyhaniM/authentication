@@ -9,6 +9,8 @@ const requestOrder = async (): Promise<{ massage: string } | null> => {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        Pragma: "no-cache",
+        "Cache-Control": "no-cache",
       },
     });
     if (!order.ok) {
